@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
-import './globals.css';
 
 const getBlogProps = async () => {
   const response = await axios.get('http://127.0.0.1:8000/blog/1')
