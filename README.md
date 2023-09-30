@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Sample Markdown Rendering in Next Js
 
-## Getting Started
+ ![markdown data rendering](https://github.com/knowell41/test-markdown/assets/45946492/d071da63-28e2-474e-b637-cca133149120)
 
-First, run the development server:
+### Sample blog data fetched from API
+```
+{
+    "id": 1,
+    "title": "System Integration [Part 1]",
+    "content": "# Hardware Integration\r\n\r\n## Introduction\r\nIn this blog post, I will provide a quick demonstration of how to connect physical devices and monitor/control their state using a web application built from scratch using React and Django.\r\n\r\n## Components needed\r\nTo complete this project, you will need the following components:\r\n- RPi \r\n- Arduino\r\n- Servo Motors\r\n- LED\r\n\r\n### Block Diagram\r\n(Include a description or illustration of the block diagram here.)\r\n\r\n### Schematic Diagram\r\n(Include a description or illustration of the schematic diagram here.)\r\n\r\n### Arduino programming\r\nTo control the Servo Motor and the state of the LEDs, we will create an API that communicates with the Arduino via Serial commands.\r\n\r\n## Up Next: REST APIs\r\n(Provide information about what readers can expect in the next part of your blog post.)",
+    "created": "2023-09-29T19:06:50.401422Z"
+}
+```
+The `content` in the API response is in Markdown format. The Next.js app will only need to render the Markdown and provide generic styling for the HTML tags equivalent of markdown data. For instance, `# heading1` in markdown is equivalent to `<h1>heading1</h1>` in HTML. [Reference](https://www.markdownguide.org/basic-syntax/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Sample JSX
+```
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import axios from 'axios';
+
+const getBlogProps = async () => {
+  const response = await axios.get('http://127.0.0.1:8000/blog/1')
+  const blogData = response.data;
+  return { blogData }
+}
+
+export default async function Home() {
+  const { blogData } = await getBlogProps()
+  console.log(blogData)
+  return (
+    <div>
+      <ReactMarkdown >
+      {blogData.content}
+      </ReactMarkdown>
+    </div>
+  );
+};
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Sample style
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+/* Style headings */
+h1 {
+  font-size: 2rem;
+  color: #333;
+}
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+h2 {
+  font-size: 1.5rem;
+  color: #444;
+}
 
-## Learn More
+h3 {
+  font-size: 1.2rem;
+  color: #555;
+}
 
-To learn more about Next.js, take a look at the following resources:
+/* Style paragraphs */
+p {
+  line-height: 1.4;
+  margin-bottom: 1em;
+}
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+/* Style lists */
+ul, ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1em;
+}
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+/* Style list items */
+li {
+  margin-bottom: 0.5em;
+}
 
-## Deploy on Vercel
+/* Style links */
+a {
+  color: #007bff;
+  text-decoration: underline;
+}
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+a:hover {
+  text-decoration: none;
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
