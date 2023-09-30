@@ -25,3 +25,48 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* Markdown.module.css */
+
+/* Style headings */
+h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #444;
+}
+
+h3 {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Style paragraphs */
+p {
+  line-height: 1.4;
+  margin-bottom: 1em;
+}
+
+/* Style lists */
+ul, ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1em;
+}
+
+/* Style list items */
+li {
+  margin-bottom: 0.5em;
+}
+
+/* Style links */
+a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
